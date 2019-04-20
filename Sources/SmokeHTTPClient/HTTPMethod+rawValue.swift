@@ -88,6 +88,8 @@ public extension HTTPMethod {
             return "MKACTIVITY"
         case .UNSUBSCRIBE:
             return "UNSUBSCRIBE"
+        case .SOURCE:
+            return "SOURCE"
         case .RAW(let value):
             return value
         }

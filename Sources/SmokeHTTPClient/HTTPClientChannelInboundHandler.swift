@@ -18,7 +18,7 @@
 import Foundation
 import NIO
 import NIOHTTP1
-import NIOOpenSSL
+import NIOSSL
 import NIOTLS
 import NIOFoundationCompat
 import LoggerAPI
@@ -242,7 +242,7 @@ public final class HTTPClientChannelInboundHandler: ChannelInboundHandler {
         // copy the body data to a ByteBuffer
         var buffer = ctx.channel.allocator.buffer(capacity: bodyData.count)
         let array = [UInt8](bodyData)
-        buffer.write(bytes: array)
+        buffer.writeBytes(array)
 
         // Send the request on the channel.
         ctx.write(self.wrapOutboundOut(.head(httpRequestHead)), promise: nil)

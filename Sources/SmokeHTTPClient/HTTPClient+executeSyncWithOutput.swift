@@ -18,7 +18,7 @@
 import Foundation
 import NIO
 import NIOHTTP1
-import NIOOpenSSL
+import NIOSSL
 import NIOTLS
 import LoggerAPI
 
@@ -34,7 +34,7 @@ public extension HTTPClient {
      - Returns: the response body.
      - Throws: If an error occurred during the request.
      */
-    public func executeSyncWithOutput<InputType, OutputType>(
+    func executeSyncWithOutput<InputType, OutputType>(
         endpointOverride: URL? = nil,
         endpointPath: String,
         httpMethod: HTTPMethod,
@@ -60,7 +60,7 @@ public extension HTTPClient {
                 asyncResponseInvocationStrategy: SameThreadAsyncResponseInvocationStrategy<HTTPResult<OutputType>>(),
                 handlerDelegate: handlerDelegate)
             
-            channel.closeFuture.whenComplete {
+            channel.closeFuture.whenComplete {_ in 
                 // if this channel is being closed and no response has been recorded
                 if responseResult == nil {
                     responseResult = .error(HTTPClient.unexpectedClosureType)

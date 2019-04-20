@@ -18,7 +18,7 @@
 import Foundation
 import NIO
 import NIOHTTP1
-import NIOOpenSSL
+import NIOSSL
 import NIOTLS
 import LoggerAPI
 
@@ -35,7 +35,7 @@ public extension HTTPClient {
      - completion: Completion handler called with an error if one occurs or nil otherwise.
      - handlerDelegate: the delegate used to customize the request's channel handler.
      */
-    public func executeAsyncWithoutOutput<InputType>(
+    func executeAsyncWithoutOutput<InputType>(
         endpointOverride: URL? = nil,
         endpointPath: String,
         httpMethod: HTTPMethod,
@@ -64,7 +64,7 @@ public extension HTTPClient {
      - asyncResponseInvocationStrategy: The invocation strategy for the response from this request.
      - handlerDelegate: the delegate used to customize the request's channel handler.
      */
-    public func executeAsyncWithoutOutput<InputType, InvocationStrategyType>(
+    func executeAsyncWithoutOutput<InputType, InvocationStrategyType>(
         endpointOverride: URL? = nil,
         endpointPath: String,
         httpMethod: HTTPMethod,
@@ -101,7 +101,7 @@ public extension HTTPClient {
                                            completion: wrappingCompletion,
                                            handlerDelegate: handlerDelegate)
             
-            channel.closeFuture.whenComplete {
+            channel.closeFuture.whenComplete {_ in 
                 // if this channel is being closed and no response has been recorded
                 if !hasComplete {
                     completion(HTTPClient.unexpectedClosureType)
